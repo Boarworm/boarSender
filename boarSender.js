@@ -1,5 +1,12 @@
 $(document).ready(function () {
-    var validTypes = ['jpg', 'png', 'jpeg'];
+    var dropArea = $('.droparea'),
+        dropAreaAttachments = $('.droparea__attachments'),
+        err = 0,
+        maxFileSize = 1000,
+        maxFilesSize = 5000,
+        classDragover = 'droparea_dragover',
+        dropAreaInput = $('input[type=file]', dropArea),
+        validTypes = ['jpg', 'png', 'jpeg'];
 
     function fileTypeCheck(files, validTypes) {
         var filesExt = [];
@@ -71,86 +78,6 @@ $(document).ready(function () {
 
     }
 
-    // function uploadAttachedFiles(files){
-    //     console.log(files);
-    //     var formData = new FormData();
-    //     $.each( files, function( key, value ){
-    //         formData.append( key, value );
-    //     });
-    //     console.log(formData);
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/boarSender.php',
-    //         //dataType: 'json',
-    //         processData: false,
-    //         contentType: false,
-    //         data: formData,
-    //         beforeSend: function (xhr) {
-    //
-    //         },
-    //         success: function (data) {
-    //
-    //         },
-    //         error: function (xhr, ajaxOptions, thrownError) {
-    //             alert(xhr.status);
-    //             alert(thrownError);
-    //         }
-    //     });
-    // }
-    $('.input-type-file-wrap').bind('dragover', function () {
-        $(this).addClass('input-type-file-wrap_dragover');
-    });
-    $('.input-type-file-wrap').bind('dragleave', function () {
-        $(this).removeClass('input-type-file-wrap_dragover');
-    });
-    $('.boarAjax input[type=file]').on('change', function () {
-        var files = inputTypeFile[0].files;
-        //var filename = $('input[type=file]', this).val().split('\\').pop();
-        // console.log(filename);
-        // $('.input-type-file__attachments').append('<div class=""></div>')
-        addAttachentsToDropArea(files);
-    });
-
-
-    var dropArea = $('.input-type-file-wrap'),
-        formWithDropArea = $('#add_advert_form'),
-        dropAreaError = $('.input-type-file__error'),
-        dropAreaAttachments = $('.input-type-file__attachments'),
-        attachedFile = 'attached-file',
-        attachedFileName = 'attached-file__name',
-        attachedFileRemoveBtn = 'attached-file__remove-btn',
-        //attachments = '',
-        i = 0,
-        excludedFiles = [],
-        classDragover = 'input-type-file-wrap_dragover',
-        //classDragleave = 'photo-upload-popup__drop-area--dragleave',
-        attachmentsItem = 0,
-        attachmentRemoveBtn = 0,
-        err = 0,
-        allowedExtentions = ['jpeg', 'jpg', 'png'];
-    var inputTypeFile = $('input[type=file]', dropArea);
-    //   inputTypeFile.attr('title', 'РџРµСЂРµС‚Р°С‰РёС‚Рµ С„Р°Р№Р»С‹ СЃСЋРґР°');
-
-    dropArea.on('dragover', function () {
-        dropArea.addClass(classDragover);
-    });
-
-    dropArea.on('dragleave', function () {
-        dropArea.removeClass(classDragover);
-    });
-
-    //  inputTypeFile.on('change', function () {
-    //      var files = inputTypeFile[0].files;
-    //      dropAreaAttachments.empty();
-    //      if (fileSizeCheck(files, 1200, 30000) && fileTypeCheck(files, validTypes)) {
-    //          console.log('OK: fileSizeCheck and fileTypeCheck valid');
-    //          //uploadAttachedFiles(files);
-    //      } else {
-    //          console.log('ERR: fileSizeCheck or fileTypeCheck not valid')
-    //      }
-    //  });
-
-
     function ajaxMsg(msg_text) {
         $('.ajax-form-popup-text').text(msg_text);
         $('.ajax-form-popup-overlay, .ajax-form-popup').show();
@@ -163,38 +90,41 @@ $(document).ready(function () {
         $('.ajax-form-popup').append('<div class="ajax-form-popup-text"></div>');
     }
 
+    dropArea.bind('dragover', function () {
+        $(this).addClass(classDragover);
+    });
+    dropArea.bind('dragleave', function () {
+        $(this).removeClass(classDragover);
+    });
+    dropAreaInput.on('change', function () {
+        var files = dropAreaInput[0].files;
+        addAttachentsToDropArea(files);
+    });
+
+
     $(document).on('click', '.ajax-form-popup-overlay, .ajax-form-popup-close', function () {
         $('.ajax-form-popup-overlay, .ajax-form-popup').hide();
     });
     createMsgWindow();
-    $(".boarAjax").submit(function () {
+    $(".boar-sender").submit(function (files) {
         var form = $(this);
-
         var formData = new FormData($(this)[0]);
         var i = 0;
-        // var formName = $('input[name=form_name]', this).val();
-        // var ajaxID = 'forms';
         var inputs = form.find('input[type=text], textarea, select');
-        //console.log(inputs);
-        var files = inputTypeFile[0].files;
         var requireds_arr = [];
         var ruNames_arr = [];
         inputs.each(function () {
             ruNames_arr.push($(this).data('ru-name'));
             requireds_arr.push($(this).data('required'));
-            //console.log($(this));
-
-
         });
         formData.append('ruNames ', JSON.stringify(ruNames_arr));
         formData.append('requireds ', JSON.stringify(requireds_arr));
         //formData.append('formName', formName);
         //formData.append('ajaxID', ajaxID);
-
         $.ajax({
             type: 'POST',
             url: 'boarSender.php',
-            //dataType: 'json',
+            dataType: 'json',
             processData: false,
             contentType: false,
             data: formData,
@@ -210,7 +140,7 @@ $(document).ready(function () {
                 });
                 console.log(files);
                 if (files.length > 0) {
-                    if (fileSizeCheck(files, 1200, 30000) && fileTypeCheck(files, validTypes)) {
+                    if (fileSizeCheck(files, maxFileSize, maxFilesSize) && fileTypeCheck(files, validTypes)) {
                         console.log('attached files, fileSizeCheck and fileTypeCheck OK');
                         // xhr.abort();
                     } else {
@@ -222,7 +152,7 @@ $(document).ready(function () {
                 }
             },
             success: function (data) {
-                var response = JSON.parse(data);
+                var response = data;
                 if (response['error'] === 'invalid') {
                     ajaxMsg('Подтвердите что Вы не робот!');
                     $('.popup').hide();
@@ -242,6 +172,8 @@ $(document).ready(function () {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);
+                console.log(xhr.status);
+                console.log(thrownError);
             }
         });
         return false;

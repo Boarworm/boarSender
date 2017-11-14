@@ -4,9 +4,11 @@
 	<meta charset="UTF-8">
 	<title>BoarSender - plugin for easy send email</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="boarSender.js"></script>
+	<link rel="stylesheet" href="boarSender.css">
 </head>
 <body>
-<form action="#" method="post" class="cell xlarge-8 boarAjax" enctype="multipart/form-data">
+<form action="#" method="post" class="boar-sender" enctype="multipart/form-data">
 	<select name="name[]" data-ru-name="Тема" data-required="1" title="Тема">
 		<option value="" disabled="" selected="" hidden="">Тема *</option>
 		<option value="Продам">Продам</option>
@@ -16,25 +18,25 @@
 	<input name="name[]" type="text" data-ru-name="Имя клиента" data-required="1" title="Ваше имя">
 	<textarea type="text" name="name[]" data-ru-name="Текст сообщения" data-required="1" placeholder="Текст сообщения *"></textarea>
 	<div>Прикрепите фотографии</div>
-	<div class="input-type-file-wrap">
-		<svg class="input-type-file__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+	<div class="droparea">
+		<svg class="droparea__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
 			<path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path>
 		</svg>
-		<div class="input-type-file__text">Вы можете загрузить файлы форматов jpeg и png общим объемом не более 30 Мб (1 файл не больше 3мб)</div>
-		<div class="input-type-file__attachments"></div>
-		<div class="input-type-file__error"></div>
+		<div class="droparea__text">Вы можете загрузить файлы форматов jpeg и png общим объемом не более 30 Мб (1 файл не больше 3мб)</div>
+		<div class="droparea__attachments"></div>
+		<div class="droparea__error"></div>
 		<input name="photos[]" type="file" multiple="multiple" title="Перетащите файлы сюда или кникните по полю">
 	</div>
-	<div id="recaptcha" class="recaptcha-container"></div>
-	<script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-	<script>
-        var onloadCallback = function () {
-            grecaptcha.render('recaptcha', {
-                'sitekey': 'your_site_key',
-                'hl': 'ru'
-            });
-        };
-	</script>
+	<!--<div id="recaptcha" class="recaptcha-container"></div>-->
+	<!--<script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>-->
+	<!--<script>-->
+        <!--var onloadCallback = function () {-->
+            <!--grecaptcha.render('recaptcha', {-->
+                <!--'sitekey': 'your_site_key',-->
+                <!--'hl': 'ru'-->
+            <!--});-->
+        <!--};-->
+	<!--</script>-->
 	<button type="submit">Отправить</button>
 </form>
 </body>

@@ -1,0 +1,80 @@
+.boar-sender {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+input[type=text],
+textarea,
+select {
+    width: 100%;
+    margin: 0 0 8px 0;
+    padding: 8px;
+}
+
+input[type=file] {
+    background: #868686;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0;
+    border: 0;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 999;
+}
+button[type=submit]{width: 52%;margin: auto;}
+.droparea {
+    background: #cddde3;
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    margin: 0 0 20px 0;
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    padding: 20px;
+    transition: 0.2s;
+}
+
+.droparea__icon {
+    margin: 15px auto 15px auto;
+    fill: #92b0b3;
+}
+
+.droparea__text {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #92b0b3;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+
+.droparea__attachments {
+    background: rgba(82, 130, 130, 0.3);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0;
+    flex-wrap: wrap;
+    padding: 6px 6px 0 6px;
+}
+
+.droparea__error {
+    width: 100%;
+    text-align: center;
+    color: #f00;
+    padding: 4px 0 0 0;
+}
+
+.droparea_dragover {
+    outline-offset: -15px;
+    background: #e3f3f9;
+}
